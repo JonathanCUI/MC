@@ -20,6 +20,8 @@ public class DBManager{
 
     public static DBManager Instance{
         get{
+
+
             return _instanse;
         }
     }
