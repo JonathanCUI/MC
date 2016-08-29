@@ -35,10 +35,10 @@ public class DBManager{
     {
         try{
             string dbFilePath = Application.persistentDataPath+"/tt.db";
-            TextAsset txt = Resources.Load("Database/tt", typeof(TextAsset)) as TextAsset;
-            File.WriteAllBytes(dbFilePath, txt.bytes);
+	        TextAsset txt = Resources.Load("Database/tt", typeof(TextAsset)) as TextAsset;
+	        File.WriteAllBytes(dbFilePath, txt.bytes);
             string connStr = "data source=" + dbFilePath;
-            _dbConnection = new SqliteConnection(connStr);
+			_dbConnection = new SqliteConnection(connStr);
             _dbConnection.Open();
         }
         catch (System.Exception ex)
@@ -67,7 +67,6 @@ public class DBManager{
 
     public static SqliteDataReader ExecuteQuery(string pSQL)
     {
-//        _instanse
         return _instanse.ExecuteSQL(pSQL);
     }
 
@@ -78,6 +77,11 @@ public class DBManager{
         _dbReader = _dbCommand.ExecuteReader();
         return _dbReader;
     }
+
+	public static void Close()
+	{
+		_instanse.CloseDB ();
+	}
 
     ~DBManager ()
     {

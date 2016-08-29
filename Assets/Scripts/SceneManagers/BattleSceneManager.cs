@@ -53,5 +53,8 @@ public class BattleSceneManager : MonoBehaviour {
 	
 	}
 
-
+	void OnDestroy()
+	{
+		DBManager.Close ();
+	}
 }
