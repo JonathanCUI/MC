@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class BattleSceneManager : MonoBehaviour {
 
+
     //instance
     private static BattleSceneManager _instance;
 
@@ -11,6 +12,9 @@ public class BattleSceneManager : MonoBehaviour {
     private List<GameObject> _heroList = new List<GameObject>();
     private List<GameObject> _rewardList = new List<GameObject>();
     private List<GameObject> _monsterList = new List<GameObject>();
+
+	//scene members
+	private Camera _mainCamera;
 
     public static BattleSceneManager Instance{
         get{
@@ -40,6 +44,7 @@ public class BattleSceneManager : MonoBehaviour {
         DBManager.Initialize();
         Translation.Initialize();
         _instance = this;
+		_mainCamera = Camera.main;
     }
     
 	// Use this for initialization
@@ -47,10 +52,28 @@ public class BattleSceneManager : MonoBehaviour {
     {
 
 	}
+
+	void OnMouseDown()
+	{
+		Debug.Log (Input.mousePosition);
+
+	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+	{
+		if (Input.GetMouseButtonDown (0)) 
+		{
+//			Debug.Log (Input.mousePosition);
+			Ray clickRay = _mainCamera.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hitInfo;
+
+			if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
+			{
+				Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
+			}
+
+		}
 	}
 
 	void OnDestroy()
