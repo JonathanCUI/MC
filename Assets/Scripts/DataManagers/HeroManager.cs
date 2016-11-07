@@ -51,6 +51,8 @@ public class HeroManager : MonoBehaviour {
 	    _currentAIStatus = HeroAIStatus.Patrol;
         _currentHP       = _baseHP;
         _currentMP       = _baseMP;
+
+
 	}
 	
 	// Update is called once per frame
