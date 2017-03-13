@@ -103,6 +103,8 @@ public class HeroManager : MonoBehaviour {
 
     private void UpdateMoveLogic()
     {
+        int i = 0;
+        i++;
 
     }
 
