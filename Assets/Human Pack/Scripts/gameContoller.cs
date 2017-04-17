@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class gameContoller : MonoBehaviour {
 
@@ -21,8 +22,7 @@ public class gameContoller : MonoBehaviour {
 	public IEnumerator reload()
 	{
 		yield return new WaitForSeconds(0.5f);
-		Application.LoadLevel(Application.loadedLevelName);
-	}
-	
-
+//		Application.LoadLevel(Application.loadedLevelName);
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+	}	
 }

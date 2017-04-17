@@ -50,17 +50,42 @@ public class BattleSceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+        {
+            GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
+            //avatar.transform.position = new Vector3(0f, 0f, 0f);
+            avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Warrior);
+            _heroList.Add(avatar);
+        }
 
-	}
+        //{
+        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
+        //    avatar.transform.position = new Vector3(5, 0, -5);
+        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Mage);
+        //    _heroList.Add(avatar);
+        //}
+        //{
+        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
+        //    avatar.transform.position = new Vector3(-5, 0, -5);
+        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Priest);
+        //    _heroList.Add(avatar);
+        //}
+        //{
+        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
+        //    avatar.transform.position = new Vector3(-5, 0, 5);
+        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Hunter);
+        //    _heroList.Add(avatar);
+        //}
+    }
 
-	void OnMouseDown()
+
+    void OnMouseDown()
 	{
 		Debug.Log (Input.mousePosition);
 
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
 		if (Input.GetMouseButtonDown (0)) 
 		{
@@ -71,8 +96,12 @@ public class BattleSceneManager : MonoBehaviour {
 			if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
 			{
 				Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
-			}
-
+                //分发消息
+                for(int i = 0; i < _heroList.Count; i++)
+                {
+                    _heroList[i].transform.GetComponent<AvatarController>().RunToPosition(new Vector2(hitInfo.point.x, hitInfo.point.z));
+                }
+            }
 		}
 	}
 

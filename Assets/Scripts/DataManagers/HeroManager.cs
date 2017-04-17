@@ -81,11 +81,12 @@ public class HeroManager : MonoBehaviour {
 
     private void UpdatePatrolLogic()
     {
+        return;
         _patrolNextTargetAccumulate += Time.deltaTime;
         transform.position += _patrolDirection  * _baseWalkSpeed * Time.deltaTime;
         if(_patrolNextTargetAccumulate > _patrolNextTargetTime)
         {
-            Vector2 v2 = Random.insideUnitCircle;
+            Vector2 v2 = Random.insideUnitCircle * 5f;
             _patrolDirection = new Vector3(v2.x, 0f, v2.y);
             _patrolNextTargetAccumulate = 0f;
         }
@@ -105,7 +106,6 @@ public class HeroManager : MonoBehaviour {
     {
         int i = 0;
         i++;
-
     }
 
     public bool SetReward()

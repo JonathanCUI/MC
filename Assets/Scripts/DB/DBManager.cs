@@ -34,7 +34,7 @@ public class DBManager{
     private void OpenDB()
     {
         try{
-            string dbFilePath = Application.persistentDataPath+"/tt.db";
+            string dbFilePath = Application.persistentDataPath + "/tt.db";
 	        TextAsset txt = Resources.Load("Database/tt", typeof(TextAsset)) as TextAsset;
 	        File.WriteAllBytes(dbFilePath, txt.bytes);
             string connStr = "data source=" + dbFilePath;
@@ -48,6 +48,8 @@ public class DBManager{
     }
     private void CloseDB()
     {
+        Debug.Log("CloseDB instance");
+
         if(_dbCommand != null)
         {
             _dbCommand.Dispose();
@@ -63,6 +65,7 @@ public class DBManager{
             _dbConnection.Close();
             _dbConnection = null;
         }
+        _instanse = null;
     }
 
     public static SqliteDataReader ExecuteQuery(string pSQL)
@@ -72,8 +75,18 @@ public class DBManager{
 
     private SqliteDataReader ExecuteSQL(string pSQL)
     {
+        if(_dbCommand != null)
+        {
+            _dbCommand.Dispose();
+            _dbCommand = null;
+        }
         _dbCommand = _dbConnection.CreateCommand();
         _dbCommand.CommandText = pSQL;
+        if(_dbReader != null)
+        {
+            _dbReader.Close();
+            _dbReader = null;
+        }
         _dbReader = _dbCommand.ExecuteReader();
         return _dbReader;
     }
@@ -82,9 +95,4 @@ public class DBManager{
 	{
 		_instanse.CloseDB ();
 	}
-
-    ~DBManager ()
-    {
-        CloseDB();
-    }
 }
