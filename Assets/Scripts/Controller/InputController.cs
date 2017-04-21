@@ -167,7 +167,7 @@ public class InputController : MonoBehaviour {
                 {
                     if(touches[i].position.x > heroPanelWidth && touches[i].position.x < Screen.width - rewardPanelWidth)
                     {
-                        BSM.Instance.AddHero(_heroFingerObjectSelectionDic[fingerID], _heroFingerClassSelectionDic[fingerID]);
+                        //BSM.Instance.AddHero(_heroFingerObjectSelectionDic[fingerID], _heroFingerClassSelectionDic[fingerID]);
                     }
                     else
                     {

@@ -39,6 +39,9 @@ public class AvatarController : MonoBehaviour {
             case HeroClass.Priest:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Priest") as GameObject);
                 break;
+            case HeroClass.Rogue:
+                avatar = Instantiate(Resources.Load("Prefabs/Avatars/Warrior") as GameObject);
+                break;
             default:
                 break;
         }

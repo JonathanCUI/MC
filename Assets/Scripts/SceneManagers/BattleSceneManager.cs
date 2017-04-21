@@ -21,9 +21,9 @@ public class BattleSceneManager : MonoBehaviour {
         }
     }
 
-    public void AddHero(GameObject pHeroObject, HeroClass pHeroClass)
+    public void AddHero(GameObject pHeroObject)
     {
-        pHeroObject.GetComponent<HeroManager>().SetData(pHeroClass);
+        //pHeroObject.GetComponent<HeroManager>().SetData(pHeroClass);
         _heroList.Add(pHeroObject);
     }
 
