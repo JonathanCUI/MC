@@ -74,7 +74,7 @@ public class AvatarController : MonoBehaviour {
 
     public void RunToPosition(Vector2 pTerminalPosition)
     {
-        //按照一定速度跑过去，跑到之后进入状态
+        //按照一定速度跑过去，跑到之后进入空闲状态
         _terminalPosition = new Vector3(pTerminalPosition.x, 0, pTerminalPosition.y);
         //_moveState = IdleWalkRun.Run;
         Run(); //run, walk just for test

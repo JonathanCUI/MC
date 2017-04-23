@@ -35,6 +35,13 @@ public enum HeroClass
     DeathKnight,    //10死亡骑士
 }
 
+public enum Camp
+{
+    None,   //默认值
+    Ally,   //友军
+    Enemy,  //敌人
+}
+
 public enum AttackType
 {
     None,   //0默认值
@@ -114,4 +121,19 @@ public static class RewardColor
         Knowledge,
         Belief,
         Power};
+}
+
+//游戏战斗事件
+public class BattleEvent
+{
+    public Vector3 Position;    //事件发生地点
+    public int aaP { get; set; }    //属性
+    private int myVar;
+
+    public int MyProperty
+    {
+        get { return myVar; }
+        set { myVar = value; }
+    }
+
 }
