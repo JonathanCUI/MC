@@ -8,7 +8,7 @@ public class AvatarManager : MonoBehaviour {
 
     private Animator _avatarAnimator;
     //functions
-
+    private Vector2 _logicPosition; //逻辑坐标系里面的实际坐标，只有2d平面
 
     //根据角色类型和阵营来创建角色
     public void SetData(HeroClass pHeroClass, Camp pCamp)
@@ -41,12 +41,18 @@ public class AvatarManager : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+	    
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+    {
+        _logicPosition.x = this.transform.position.x;
+        _logicPosition.y = this.transform.position.z;
+        //访问头脑，获得当前命令
+        _headManager.UpdateLogic(_logicPosition, Time.deltaTime);
+
 	}
 }
