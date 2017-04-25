@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BaseAnimatorController : MonoBehaviour {
+public class BaseAnimatorController : MonoBehaviour {
 
     //动画控制器
     private Animator _animator;
@@ -13,8 +13,9 @@ public abstract class BaseAnimatorController : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        _animator = this.transform.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

@@ -52,7 +52,7 @@ public class BattleSceneManager : MonoBehaviour {
         {
             GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             //avatar.transform.position = new Vector3(0f, 0f, 0f);
-            avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Warrior);
+            avatar.transform.GetComponent<AvatarManager>().SetData(HeroClass.Warrior, Camp.Ally);
             _heroList.Add(avatar);
         }
 
@@ -96,10 +96,10 @@ public class BattleSceneManager : MonoBehaviour {
 			{
 				Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
                 //分发消息
-                for(int i = 0; i < _heroList.Count; i++)
-                {
-                    _heroList[i].transform.GetComponent<AvatarController>().RunToPosition(new Vector2(hitInfo.point.x, hitInfo.point.z));
-                }
+                //for(int i = 0; i < _heroList.Count; i++)
+                //{
+                //    _heroList[i].transform.GetComponent<AvatarController>().RunToPosition(new Vector2(hitInfo.point.x, hitInfo.point.z));
+                //}
             }
 		}
 	}

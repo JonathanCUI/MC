@@ -47,22 +47,22 @@ public class AvatarController : MonoBehaviour {
         }
         avatar.transform.SetParent(this.transform, false);
         _avatarAnimator = this.transform.GetComponentInChildren<Animator>();
-        this.transform.GetComponent<HeroManager>().SetData(pHeroClass);
+//        this.transform.GetComponent<HeroManager>().SetData(pHeroClass);
     }
         
 	// Update is called once per frame
-	void Update () 
+	void Update ()
     {
-        if(Vector3.SqrMagnitude(this.transform.position - _terminalPosition) > 0.1f)
-        {
-            this.transform.position += (_terminalPosition - this.transform.position).normalized * _runSpeed * Time.deltaTime;
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
-        }
-        else
-        {
-            Idle();          
-        }
-	}
+    //    if (Vector3.SqrMagnitude(this.transform.position - _terminalPosition) > 0.1f)
+    //    {
+    //        this.transform.position += (_terminalPosition - this.transform.position).normalized * _runSpeed * Time.deltaTime;
+    //        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
+    //    }
+    //    else
+    //    {
+    //        Idle();
+    //    }
+    }
 
     public void WalkToPosition(Vector2 pTerminalPosition)
     {

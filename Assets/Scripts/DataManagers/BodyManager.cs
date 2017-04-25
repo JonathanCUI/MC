@@ -21,6 +21,10 @@ public class BodyManager {
     private float _baseHPRecoverSpeed;
     private float _baseMPRecoverSpeed;
 
+    public BodyManager(HeroClass pHeroClass)
+    {
+        SetUpBattleProperties(pHeroClass);
+    }
 
     // Use this for initialization
     void Start () {
@@ -36,8 +40,14 @@ public class BodyManager {
 
     public float RunSpeed
     {
-        //这里以后要考虑buff对
+        //这里以后要考虑buff对移动速度的影响
         get { return _baseRunSpeed; }
+    }
+
+    public float WalkSpeed
+    {
+        //这里以后要考虑buff对移动速度的影响
+        get { return _baseWalkSpeed; }
     }
 
 
