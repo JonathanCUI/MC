@@ -17,7 +17,7 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             Vector2 randomPosition = Random.insideUnitCircle * 5f;
             go.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-            go.transform.GetComponent<AvatarController>().SetData(HeroClass.Warrior);
+            go.transform.GetComponent<AvatarManager>().SetData(HeroClass.Warrior, Camp.Ally);
             BattleSceneManager.Instance.AddHero(go);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))   //添加法师
@@ -25,7 +25,7 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             Vector2 randomPosition = Random.insideUnitCircle * 5f;
             go.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-            go.transform.GetComponent<AvatarController>().SetData(HeroClass.Mage);
+            go.transform.GetComponent<AvatarManager>().SetData(HeroClass.Mage, Camp.Ally);
             BattleSceneManager.Instance.AddHero(go);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))   //添加牧师
@@ -33,7 +33,7 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             Vector2 randomPosition = Random.insideUnitCircle * 5f;
             go.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-            go.transform.GetComponent<AvatarController>().SetData(HeroClass.Priest);
+            go.transform.GetComponent<AvatarManager>().SetData(HeroClass.Priest, Camp.Ally);
             BattleSceneManager.Instance.AddHero(go);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))   //添加猎人
@@ -41,7 +41,7 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             Vector2 randomPosition = Random.insideUnitCircle * 5f;
             go.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-            go.transform.GetComponent<AvatarController>().SetData(HeroClass.Hunter);
+            go.transform.GetComponent<AvatarManager>().SetData(HeroClass.Hunter, Camp.Ally);
             BattleSceneManager.Instance.AddHero(go);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))   //添加盗贼
@@ -49,7 +49,7 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
             Vector2 randomPosition = Random.insideUnitCircle * 5f;
             go.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-            go.transform.GetComponent<AvatarController>().SetData(HeroClass.Rogue);
+            go.transform.GetComponent<AvatarManager>().SetData(HeroClass.Rogue, Camp.Ally);
             BattleSceneManager.Instance.AddHero(go);
         }
 

@@ -123,17 +123,16 @@ public static class RewardColor
         Power};
 }
 
+public enum BattleEventType
+{
+    None,       //标准事件
+    ForceMove,  //强制移动，有一个友军移动到目标位置则该命令失效
+
+}
+
 //游戏战斗事件
 public class BattleEvent
 {
-    public Vector3 Position;    //事件发生地点
-    public int aaP { get; set; }    //属性
-    private int myVar;
-
-    public int MyProperty
-    {
-        get { return myVar; }
-        set { myVar = value; }
-    }
-
+    public Vector2 Position;        //事件发生地点
+    public BattleEventType Type;    //战斗事件
 }

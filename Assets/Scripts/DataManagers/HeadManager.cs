@@ -8,7 +8,7 @@ public class HeadManager {
     private AvatarManager _avatarManager;
 
     //巡逻相关参数
-    private float   _maxPatrolRadius = 10f;        //最大巡逻半径
+    private float   _maxPatrolRadius = 3f;        //最大巡逻半径
     private Vector2 _patrolCentrePosition;         //巡逻中心点
     private Vector2 _patrolTerminalPosition;       //巡逻目标点
     private float   _minPatrolIdleTime = 1f;       //到达位置后，最小空闲时间
@@ -17,7 +17,10 @@ public class HeadManager {
     private float   _idleTimeAccmulate;            //到达位置后，已经空闲的时间
     private bool    _patrolReachTerminal;          //是否到达位置
     //可以说，红轴现在是机械键盘当中，压感最小的机械键盘，打字有一种蜻蜓点水的感觉，非常的快速
-    
+    //跑向目标地点相关参数
+    private Vector2 _runTerminalPosition;      //跑向目标地点
+
+
 
     public HeadManager(HeroClass pHeroClass, AvatarManager pAvatarManager)
     {
@@ -47,8 +50,8 @@ public class HeadManager {
             case HeroAIStatus.Attack:
 
                 break;
-            case HeroAIStatus.Move:
-
+            case HeroAIStatus.Run:
+                UpdateRunLogic(pLogicPosition, pDeltaTime);
                 break;
             case HeroAIStatus.Defense:
 
@@ -98,12 +101,45 @@ public class HeadManager {
         }
     }
 
-    //接收消息
-    //到达目的地
-    public void ReceiverMessage()
+    private void UpdateRunLogic(Vector2 pLogicPosition, float pDeltaTime)
     {
-
+        //检查是否已经跑到位置
+        if (Vector2.SqrMagnitude(pLogicPosition - _runTerminalPosition) > 1f)
+        {
+            //继续跑
+            _avatarManager.RunToPosition(_runTerminalPosition);
+        }
+        else
+        {
+            //进入巡逻状态
+            _currentAIStatus = HeroAIStatus.Patrol;
+            _patrolCentrePosition = pLogicPosition;
+            _patrolReachTerminal = true;
+        }
     }
+
+    //接收消息
+    public void ReceiverMessage(BattleEvent pBattleEvent)
+    {
+        //根据消息的不同类型来决定不同行为
+        switch (pBattleEvent.Type)
+        {
+            case BattleEventType.ForceMove:
+                this.RunToPosition(pBattleEvent.Position);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //跑向目标地点
+    private void RunToPosition(Vector2 pTerminalPosition)
+    {
+        _runTerminalPosition = pTerminalPosition;
+        _currentAIStatus = HeroAIStatus.Run;
+    }
+
     //发送指令
     public void SendCommand()
     {

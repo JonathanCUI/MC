@@ -23,7 +23,6 @@ public class BattleSceneManager : MonoBehaviour {
 
     public void AddHero(GameObject pHeroObject)
     {
-        //pHeroObject.GetComponent<HeroManager>().SetData(pHeroClass);
         _heroList.Add(pHeroObject);
     }
 
@@ -49,29 +48,10 @@ public class BattleSceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        {
-            GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-            //avatar.transform.position = new Vector3(0f, 0f, 0f);
-            avatar.transform.GetComponent<AvatarManager>().SetData(HeroClass.Warrior, Camp.Ally);
-            _heroList.Add(avatar);
-        }
-
         //{
         //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    avatar.transform.position = new Vector3(5, 0, -5);
-        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Mage);
-        //    _heroList.Add(avatar);
-        //}
-        //{
-        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    avatar.transform.position = new Vector3(-5, 0, -5);
-        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Priest);
-        //    _heroList.Add(avatar);
-        //}
-        //{
-        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    avatar.transform.position = new Vector3(-5, 0, 5);
-        //    avatar.transform.GetComponent<AvatarController>().SetData(HeroClass.Hunter);
+        //    //avatar.transform.position = new Vector3(0f, 0f, 0f);
+        //    avatar.transform.GetComponent<AvatarManager>().SetData(HeroClass.Warrior, Camp.Ally);
         //    _heroList.Add(avatar);
         //}
     }
@@ -96,12 +76,15 @@ public class BattleSceneManager : MonoBehaviour {
 			{
 				Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
                 //分发消息
-                //for(int i = 0; i < _heroList.Count; i++)
-                //{
-                //    _heroList[i].transform.GetComponent<AvatarController>().RunToPosition(new Vector2(hitInfo.point.x, hitInfo.point.z));
-                //}
+                for (int i = 0; i < _heroList.Count; i++)
+                {
+                    BattleEvent bt = new BattleEvent();
+                    bt.Position = new Vector2(hitInfo.point.x, hitInfo.point.z);
+                    bt.Type = BattleEventType.ForceMove;
+                    _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(bt);
+                }
             }
-		}
+        }
 	}
 
 	void OnDestroy()

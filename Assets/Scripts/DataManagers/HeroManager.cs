@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum HeroAIStatus{
     Patrol,         //nothing to do
-    Move,           //move to reward
+    Run,            //run to target
     Attack,         //attack an enemy
     Defense,        //fear, heal or others
 }

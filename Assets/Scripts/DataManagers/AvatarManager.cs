@@ -60,21 +60,19 @@ public class AvatarManager : MonoBehaviour {
         _headManager.UpdateLogic(_logicPosition, Time.deltaTime);
 	}
 
+    public void ReceiverMessage(BattleEvent pBattleEvent)
+    {
+        _headManager.ReceiverMessage(pBattleEvent);
+    }
+
     //走向目的地
     public void WalkToPosition(Vector2 pTerminalPosition)
     {
         _terminalPosition.x = pTerminalPosition.x;
         _terminalPosition.z = pTerminalPosition.y;
-//        if (Vector2.SqrMagnitude(this.transform.position - _terminalPosition) > 0.1f)
-        {
-            _avatarAnimator.Walk();
-            this.transform.position += (_terminalPosition - this.transform.position).normalized * _bodyManager.WalkSpeed * Time.deltaTime;
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
-        }
-        //else
-        //{
-        //    _avatarAnimator.Idle();
-        //}
+        _avatarAnimator.Walk();
+        this.transform.position += (_terminalPosition - this.transform.position).normalized * _bodyManager.WalkSpeed * Time.deltaTime;
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
     }
     //原地等待
     public void Idle()
@@ -87,16 +85,8 @@ public class AvatarManager : MonoBehaviour {
     {
         _terminalPosition.x = pTerminalPosition.x;
         _terminalPosition.z = pTerminalPosition.y;
-        if (Vector2.SqrMagnitude(this.transform.position - _terminalPosition) > 0.1f)
-        {
-            _avatarAnimator.Run();
-            this.transform.position += (_terminalPosition - this.transform.position).normalized * _bodyManager.RunSpeed * Time.deltaTime;
-            this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
-        }
-        else
-        {
-            _avatarAnimator.Idle();
-        }
+        _avatarAnimator.Run();
+        this.transform.position += (_terminalPosition - this.transform.position).normalized * _bodyManager.RunSpeed * Time.deltaTime;
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.LookRotation(_terminalPosition - this.transform.position), Time.deltaTime * 10f);
     }
-
 }
