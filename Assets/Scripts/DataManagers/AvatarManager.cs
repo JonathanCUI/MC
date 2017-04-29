@@ -5,11 +5,8 @@ public class AvatarManager : MonoBehaviour {
     //data members
     private BodyManager _bodyManager;   //身体管理器
     private HeadManager _headManager;   //头脑管理器
-
-    //HUD管理器
-    
-
-    private BaseAnimatorController _avatarAnimator;
+    public  AvatarHUDController _hudController; //HUD管理器
+    private BaseAnimatorController _avatarAnimator; //角色模型动画管理器
 
     private Vector3 _terminalPosition = Vector3.zero;  //目的地的世界坐标，为了保证效率，在这里提出来
     //functions
@@ -40,11 +37,12 @@ public class AvatarManager : MonoBehaviour {
                 break;
         }
         avatar.transform.SetParent(this.transform, false);
-        _avatarAnimator = avatar.transform.GetComponent<BaseAnimatorController>();
 
+        _hudController.SetData(pHeroClass, pCamp);
+        //获取所有钩子
+        _avatarAnimator = avatar.transform.GetComponent<BaseAnimatorController>();
         _headManager = new HeadManager(pHeroClass, this);
         _bodyManager = new BodyManager(pHeroClass);
-
     }
 
 
