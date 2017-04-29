@@ -74,7 +74,7 @@ public class BattleSceneManager : MonoBehaviour {
 
 			if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
 			{
-				Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
+				//Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
                 //分发消息
                 for (int i = 0; i < _heroList.Count; i++)
                 {

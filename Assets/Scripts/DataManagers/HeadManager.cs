@@ -20,8 +20,6 @@ public class HeadManager {
     //跑向目标地点相关参数
     private Vector2 _runTerminalPosition;      //跑向目标地点
 
-
-
     public HeadManager(HeroClass pHeroClass, AvatarManager pAvatarManager)
     {
         _avatarManager = pAvatarManager;

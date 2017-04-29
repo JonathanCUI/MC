@@ -6,6 +6,9 @@ public class AvatarManager : MonoBehaviour {
     private BodyManager _bodyManager;   //身体管理器
     private HeadManager _headManager;   //头脑管理器
 
+    //HUD管理器
+    
+
     private BaseAnimatorController _avatarAnimator;
 
     private Vector3 _terminalPosition = Vector3.zero;  //目的地的世界坐标，为了保证效率，在这里提出来
