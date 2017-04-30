@@ -49,7 +49,7 @@ public class AvatarManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-	    
+        _headManager.Start();
 	}
 	
 	// Update is called once per frame
@@ -63,7 +63,9 @@ public class AvatarManager : MonoBehaviour {
 
     public void ReceiverMessage(BattleEvent pBattleEvent)
     {
-        _headManager.ReceiverMessage(pBattleEvent);
+        _logicPosition.x = this.transform.position.x;
+        _logicPosition.y = this.transform.position.z;
+        _headManager.ReceiverMessage(pBattleEvent, _logicPosition);
     }
 
     //走向目的地

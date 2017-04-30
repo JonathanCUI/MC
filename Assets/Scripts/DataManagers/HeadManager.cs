@@ -18,24 +18,24 @@ public class HeadManager {
     private bool    _patrolReachTerminal;          //是否到达位置
     //可以说，红轴现在是机械键盘当中，压感最小的机械键盘，打字有一种蜻蜓点水的感觉，非常的快速
     //跑向目标地点相关参数
+    private Vector2 _runStartPosition;         //跑状态起始位置
     private Vector2 _runTerminalPosition;      //跑向目标地点
+    private float   _runDistanceSqr;           //需要跑动的距离的平方
 
     public HeadManager(HeroClass pHeroClass, AvatarManager pAvatarManager)
     {
         _avatarManager = pAvatarManager;
-        _currentAIStatus = HeroAIStatus.Patrol;
         _patrolCentrePosition = new Vector2(pAvatarManager.transform.position.x, pAvatarManager.transform.position.z);
+        Debug.Log(_patrolCentrePosition.ToString());
+//        StartNewPatrol(_patrolCentrePosition);
     }
 
 	// Use this for initialization
-	void Start ()
+	public void Start ()
     {
-        _currentAIStatus = HeroAIStatus.Patrol;
-
-        _idleTimeAccmulate = 0f;
-        _patrolReachTerminal = true;
-        _patrolIdleTime = Mathf.Lerp(_minPatrolIdleTime, _maxPatrolIdleTime, Random.Range(0f, 1f));
-	}
+        StartNewPatrol(_patrolCentrePosition);
+        //Debug.Log(_patrolCentrePosition.ToString());
+    }
 	
 	// Update is called once per frame
 	public void UpdateLogic (Vector2 pLogicPosition, float pDeltaTime)
@@ -84,7 +84,7 @@ public class HeadManager {
         //子状态2 没有到达目标位置，前往状态
         else 
         {
-            if (Vector2.SqrMagnitude(pLogicPosition - _patrolTerminalPosition) > 1f)
+            if (Vector2.SqrMagnitude(pLogicPosition - _patrolTerminalPosition) > 0.1f)
             {
                 //朝向avatar发出指令
                 _avatarManager.WalkToPosition(_patrolTerminalPosition);
@@ -99,10 +99,20 @@ public class HeadManager {
         }
     }
 
+    private void StartNewPatrol(Vector2 pCentrePosition)
+    {
+        _currentAIStatus = HeroAIStatus.Patrol;
+        _patrolCentrePosition = pCentrePosition;
+        _patrolReachTerminal = true;
+        _idleTimeAccmulate = 0f;
+        _patrolIdleTime = Mathf.Lerp(_minPatrolIdleTime, _maxPatrolIdleTime, Random.Range(0f, 1f));
+        _avatarManager.Idle();
+    }
+
     private void UpdateRunLogic(Vector2 pLogicPosition, float pDeltaTime)
     {
-        //检查是否已经跑到位置
-        if (Vector2.SqrMagnitude(pLogicPosition - _runTerminalPosition) > 1f)
+        //检查是否已经跑到位置，为了避免移动速度过快而产生的偏差，这里用跑动距离的方式来表示是否到达或者超过目标点
+        if (Vector2.SqrMagnitude(pLogicPosition - _runStartPosition) < _runDistanceSqr)
         {
             //继续跑
             _avatarManager.RunToPosition(_runTerminalPosition);
@@ -110,20 +120,18 @@ public class HeadManager {
         else
         {
             //进入巡逻状态
-            _currentAIStatus = HeroAIStatus.Patrol;
-            _patrolCentrePosition = pLogicPosition;
-            _patrolReachTerminal = true;
+            StartNewPatrol(pLogicPosition);
         }
     }
 
     //接收消息
-    public void ReceiverMessage(BattleEvent pBattleEvent)
+    public void ReceiverMessage(BattleEvent pBattleEvent, Vector2 pCurrentPosition)
     {
         //根据消息的不同类型来决定不同行为
         switch (pBattleEvent.Type)
         {
             case BattleEventType.ForceMove:
-                this.RunToPosition(pBattleEvent.Position);
+                this.RunToPosition(pBattleEvent.Position, pCurrentPosition);
                 break;
 
             default:
@@ -132,10 +140,12 @@ public class HeadManager {
     }
 
     //跑向目标地点
-    private void RunToPosition(Vector2 pTerminalPosition)
+    private void RunToPosition(Vector2 pTerminalPosition, Vector2 pCurrentPosition)
     {
         _runTerminalPosition = pTerminalPosition;
-        _currentAIStatus = HeroAIStatus.Run;
+        _runStartPosition    = pCurrentPosition;
+        _currentAIStatus     = HeroAIStatus.Run;
+        _runDistanceSqr = Vector2.SqrMagnitude(pTerminalPosition - pCurrentPosition);
     }
 
     //发送指令

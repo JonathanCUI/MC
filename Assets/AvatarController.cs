@@ -14,8 +14,7 @@ public class AvatarController : MonoBehaviour {
     private Animator _avatarAnimator;
 
     private int _moveStateHashString = Animator.StringToHash("IdleWalkRun");
-    private Vector3 _terminalPosition;
-    private float _runSpeed = 4f;
+    private Vector3 _terminalPosition; //提升效率，放到私有成员变量里面
     void Start()
     {
         //Animator.StringToHash()

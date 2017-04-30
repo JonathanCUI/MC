@@ -55,20 +55,12 @@ public class BattleSceneManager : MonoBehaviour {
         //    _heroList.Add(avatar);
         //}
     }
-
-
-    void OnMouseDown()
-	{
-		Debug.Log (Input.mousePosition);
-
-	}
-	
+    
 	// Update is called once per frame
 	void Update ()
 	{
 		if (Input.GetMouseButtonDown (0)) 
 		{
-//			Debug.Log (Input.mousePosition);
 			Ray clickRay = _mainCamera.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitInfo;
 

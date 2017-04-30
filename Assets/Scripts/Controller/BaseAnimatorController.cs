@@ -11,9 +11,7 @@ public class BaseAnimatorController : MonoBehaviour {
     //控制攻击
     private int _attackHashString = Animator.StringToHash("Attack");
 
-
-	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
         _animator = this.transform.GetComponent<Animator>();
 	}
