@@ -45,39 +45,32 @@ public class BattleSceneManager : MonoBehaviour {
 		_mainCamera = Camera.main;
     }
     
-	// Use this for initialization
-	void Start () 
-    {
-        //{
-        //    GameObject avatar = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    //avatar.transform.position = new Vector3(0f, 0f, 0f);
-        //    avatar.transform.GetComponent<AvatarManager>().SetData(HeroClass.Warrior, Camp.Ally);
-        //    _heroList.Add(avatar);
-        //}
-    }
-    
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0)) 
+        //右键点击地面，强制移动
+		if (Input.GetMouseButtonDown (1)) 
 		{
 			Ray clickRay = _mainCamera.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hitInfo;
 
-			if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
+            if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
 			{
-				//Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
+                //Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
                 //分发消息
-                for (int i = 0; i < _heroList.Count; i++)
-                {
-                    BattleEvent bt = new BattleEvent();
-                    bt.Position = new Vector2(hitInfo.point.x, hitInfo.point.z);
-                    bt.Type = BattleEventType.ForceMove;
-                    _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(bt);
-                }
+                SendBattleEvent(BattleEventType.ForceMove, new Vector2(hitInfo.point.x, hitInfo.point.z));
             }
         }
 	}
+
+    public void SendBattleEvent(BattleEventType pType, Vector2 pLogicPosition)
+    {
+        BattleEvent bt = new BattleEvent(pType, pLogicPosition);
+        for (int i = 0; i < _heroList.Count; i++)
+        {
+            _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(bt);
+        }
+    }
 
 	void OnDestroy()
 	{

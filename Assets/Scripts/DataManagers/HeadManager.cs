@@ -26,8 +26,6 @@ public class HeadManager {
     {
         _avatarManager = pAvatarManager;
         _patrolCentrePosition = new Vector2(pAvatarManager.transform.position.x, pAvatarManager.transform.position.z);
-        Debug.Log(_patrolCentrePosition.ToString());
-//        StartNewPatrol(_patrolCentrePosition);
     }
 
 	// Use this for initialization

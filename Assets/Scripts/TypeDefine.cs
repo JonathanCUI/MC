@@ -133,6 +133,11 @@ public enum BattleEventType
 //游戏战斗事件
 public class BattleEvent
 {
+    public BattleEvent(BattleEventType pType, Vector2 pLogicPosition)
+    {
+        Position = pLogicPosition;
+        Type = pType;
+    }
     public Vector2 Position;        //事件发生地点
     public BattleEventType Type;    //战斗事件
 }
