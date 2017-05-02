@@ -127,17 +127,28 @@ public enum BattleEventType
 {
     None,       //标准事件
     ForceMove,  //强制移动，有一个友军移动到目标位置则该命令失效
-
+    NewReward,  //新的奖励，吸引现在战场上的英雄过来分享
 }
 
 //游戏战斗事件
 public class BattleEvent
 {
-    public BattleEvent(BattleEventType pType, Vector2 pLogicPosition)
+    public BattleEvent(BattleEventType pType, BattleEventInformation pBattleEventObject)
     {
-        Position = pLogicPosition;
-        Type = pType;
+        _type = pType;
+        _eventObject = pBattleEventObject;
     }
-    public Vector2 Position;        //事件发生地点
-    public BattleEventType Type;    //战斗事件
+
+    private BattleEventType _type;
+    private BattleEventInformation _eventObject;
+
+    public BattleEventType Type
+    {
+        get { return _type; }
+    }
+
+    public BattleEventInformation BattleEventObject
+    {
+        get { return _eventObject; }
+    }
 }

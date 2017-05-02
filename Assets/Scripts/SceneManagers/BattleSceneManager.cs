@@ -65,11 +65,17 @@ public class BattleSceneManager : MonoBehaviour {
 
     public void SendBattleEvent(BattleEventType pType, Vector2 pLogicPosition)
     {
-        BattleEvent bt = new BattleEvent(pType, pLogicPosition);
+        BEI_ForceMove be = new BEI_ForceMove(pLogicPosition, HeroClass.None);
+        BattleEvent bt = new BattleEvent(pType, be);
         for (int i = 0; i < _heroList.Count; i++)
         {
             _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(bt);
         }
+    }
+
+    public void SendNewRewardEvent()
+    {
+
     }
 
 	void OnDestroy()

@@ -3,8 +3,10 @@ using Mono.Data.Sqlite;
 using System.Collections.Generic;
 
 public enum HeroAIStatus{
-    Patrol,         //nothing to do
-    Run,            //run to target
+    None,           //idle, nothing to do
+    Patrol,         //walk and stop in a relative small range
+    RunToPosition,  //run to specific position
+    RunToTarget,    //run to a specific target, the target might move around or destroy
     Attack,         //attack an enemy
     Defense,        //fear, heal or others
 }

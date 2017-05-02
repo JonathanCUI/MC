@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Mono.Data.Sqlite;
+using System.Collections.Generic;
 
 public class HeadManager {
 
@@ -22,14 +23,38 @@ public class HeadManager {
     private Vector2 _runTerminalPosition;      //跑向目标地点
     private float   _runDistanceSqr;           //需要跑动的距离的平方
 
+    //跑向指定目标相关参数, 一直追随，不离不弃
+    private Transform _targetTransform;
+    private float _targetMinDistance = 3f;
+
+    //英雄兴趣信息
+    private HeroClass _heroClass;
+    private List<float> _heroLikeProrityList;
+
     public HeadManager(HeroClass pHeroClass, AvatarManager pAvatarManager)
     {
         _avatarManager = pAvatarManager;
+        SetUpAIProperties(pHeroClass);
         _patrolCentrePosition = new Vector2(pAvatarManager.transform.position.x, pAvatarManager.transform.position.z);
     }
 
-	// Use this for initialization
-	public void Start ()
+    private void SetUpAIProperties(HeroClass pHeroClass)
+    {
+        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLike WHERE id = " + ((int)pHeroClass).ToString());
+        if (!reader.Read())
+        {
+            Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());
+        }
+        _heroLikeProrityList = new List<float>();
+        _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("glory")));
+        _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("gold")));
+        _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("knowledge")));
+        _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("belief")));
+        _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("power")));
+    }
+
+    // Use this for initialization
+    public void Start ()
     {
         StartNewPatrol(_patrolCentrePosition);
         //Debug.Log(_patrolCentrePosition.ToString());
@@ -44,10 +69,13 @@ public class HeadManager {
                 UpdatePatrolLogic(pLogicPosition, pDeltaTime);
                 break;
             case HeroAIStatus.Attack:
-
+               
                 break;
-            case HeroAIStatus.Run:
-                UpdateRunLogic(pLogicPosition, pDeltaTime);
+            case HeroAIStatus.RunToPosition:
+                UpdateRunToPositionLogic(pLogicPosition, pDeltaTime);
+                break;
+            case HeroAIStatus.RunToTarget:
+                UpdateRunToTargetPosition(pLogicPosition, pDeltaTime);
                 break;
             case HeroAIStatus.Defense:
 
@@ -107,7 +135,7 @@ public class HeadManager {
         _avatarManager.Idle();
     }
 
-    private void UpdateRunLogic(Vector2 pLogicPosition, float pDeltaTime)
+    private void UpdateRunToPositionLogic(Vector2 pLogicPosition, float pDeltaTime)
     {
         //检查是否已经跑到位置，为了避免移动速度过快而产生的偏差，这里用跑动距离的方式来表示是否到达或者超过目标点
         if (Vector2.SqrMagnitude(pLogicPosition - _runStartPosition) < _runDistanceSqr)
@@ -122,6 +150,25 @@ public class HeadManager {
         }
     }
 
+    private void UpdateRunToTargetPosition(Vector2 pLogicPosition, float pDeltaTime)
+    {
+        //如果目标已经失效，或者被销毁，则转入巡逻状态
+        if (_targetTransform == null)
+        {
+            StartNewPatrol(pLogicPosition);
+            return;
+        }
+        Vector2 targetPosition = new Vector2(_targetTransform.position.x, _targetTransform.position.z);
+        if (Vector2.SqrMagnitude(pLogicPosition - targetPosition) > _targetMinDistance * _targetMinDistance)
+        {
+            _avatarManager.RunToPosition(targetPosition);
+        }
+        else
+        {
+            _avatarManager.Idle();
+        }
+    }
+
     //接收消息
     public void ReceiverMessage(BattleEvent pBattleEvent, Vector2 pCurrentPosition)
     {
@@ -129,8 +176,16 @@ public class HeadManager {
         switch (pBattleEvent.Type)
         {
             case BattleEventType.ForceMove:
-                this.RunToPosition(pBattleEvent.Position, pCurrentPosition);
+                BEI_ForceMove be = pBattleEvent.BattleEventObject as BEI_ForceMove;
+                if (be.SpecificHeroClass == _heroClass || be.SpecificHeroClass == HeroClass.None)
+                {
+                    this.RunToPosition(be.LogicPosition, pCurrentPosition);
+                }
                 break;
+            case BattleEventType.NewReward:
+                //判断是否是自己感兴趣的奖励类型，这些以后需要拓展为奖励数量，距离，当前状态等等的兴趣曲线
+                
+
 
             default:
                 break;
@@ -142,7 +197,7 @@ public class HeadManager {
     {
         _runTerminalPosition = pTerminalPosition;
         _runStartPosition    = pCurrentPosition;
-        _currentAIStatus     = HeroAIStatus.Run;
+        _currentAIStatus     = HeroAIStatus.RunToPosition;
         _runDistanceSqr = Vector2.SqrMagnitude(pTerminalPosition - pCurrentPosition);
     }
 
