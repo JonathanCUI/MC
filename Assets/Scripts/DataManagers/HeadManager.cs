@@ -45,6 +45,7 @@ public class HeadManager {
         {
             Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());
         }
+        _heroClass = pHeroClass;
         _heroLikeProrityList = new List<float>();
         _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("glory")));
         _heroLikeProrityList.Add(reader.GetFloat(reader.GetOrdinal("gold")));
@@ -166,6 +167,8 @@ public class HeadManager {
         else
         {
             _avatarManager.Idle();
+            //拾取奖励，并将奖励清除
+            BattleSceneManager.Instance.RemoveReward(_targetTransform);
         }
     }
 
@@ -176,17 +179,25 @@ public class HeadManager {
         switch (pBattleEvent.Type)
         {
             case BattleEventType.ForceMove:
-                BEI_ForceMove be = pBattleEvent.BattleEventObject as BEI_ForceMove;
-                if (be.SpecificHeroClass == _heroClass || be.SpecificHeroClass == HeroClass.None)
                 {
-                    this.RunToPosition(be.LogicPosition, pCurrentPosition);
+                    BEI_ForceMove bei = pBattleEvent.BattleEventObject as BEI_ForceMove;
+                    if (bei != null && (bei.SpecificHeroClass == _heroClass || bei.SpecificHeroClass == HeroClass.None))
+                    {
+                        this.RunToPosition(bei.LogicPosition, pCurrentPosition);
+                    }
                 }
                 break;
             case BattleEventType.NewReward:
                 //判断是否是自己感兴趣的奖励类型，这些以后需要拓展为奖励数量，距离，当前状态等等的兴趣曲线
-                
-
-
+                {
+                    BEI_NewReward bei = pBattleEvent.BattleEventObject as BEI_NewReward;
+                    if (bei != null && (bei.RewardType == RewardType.None || _heroLikeProrityList[(int)(bei.RewardType)] >= 1.0f))
+                    {
+//                        Debug.Log(bei.RewardTy)
+                        this.RunToTarget(bei.RewardTransform);
+                    }
+                }                
+                break;
             default:
                 break;
         }
@@ -195,10 +206,16 @@ public class HeadManager {
     //跑向目标地点
     private void RunToPosition(Vector2 pTerminalPosition, Vector2 pCurrentPosition)
     {
+        _currentAIStatus     = HeroAIStatus.RunToPosition;
         _runTerminalPosition = pTerminalPosition;
         _runStartPosition    = pCurrentPosition;
-        _currentAIStatus     = HeroAIStatus.RunToPosition;
         _runDistanceSqr = Vector2.SqrMagnitude(pTerminalPosition - pCurrentPosition);
+    }
+
+    private void RunToTarget(Transform pTransform)
+    {
+        _currentAIStatus = HeroAIStatus.RunToTarget;
+        _targetTransform = pTransform;
     }
 
     //发送指令

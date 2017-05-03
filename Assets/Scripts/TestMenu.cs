@@ -68,35 +68,35 @@ public class TestMenu : MonoBehaviour {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
             go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[1];
             go.transform.position = GetMousePosition();
-            //BattleSceneManager.Instance.SendBattleEvent(BattleEventType.ForceMove, new Vector2(go.transform.position.x, go.transform.position.z));
+            go.transform.GetComponent<RewardManager>().SetData(RewardType.Glory);
         }
         if (Input.GetKeyDown(KeyCode.Keypad2)) //添加金钱
         {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
             go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[2];
             go.transform.position = GetMousePosition();
-            //BattleSceneManager.Instance.SendBattleEvent(BattleEventType.ForceMove, new Vector2(go.transform.position.x, go.transform.position.z));
+            go.transform.GetComponent<RewardManager>().SetData(RewardType.Gold);
         }
         if (Input.GetKeyDown(KeyCode.Keypad3)) //添加知识
         {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
             go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[3];
             go.transform.position = GetMousePosition();
-            //BattleSceneManager.Instance.SendBattleEvent(BattleEventType.ForceMove, new Vector2(go.transform.position.x, go.transform.position.z));
+            go.transform.GetComponent<RewardManager>().SetData(RewardType.Knowledge);
         }
         if (Input.GetKeyDown(KeyCode.Keypad4)) //添加信仰
         {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
             go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[4];
             go.transform.position = GetMousePosition();
-            //BattleSceneManager.Instance.SendBattleEvent(BattleEventType.ForceMove, new Vector2(go.transform.position.x, go.transform.position.z));
+            go.transform.GetComponent<RewardManager>().SetData(RewardType.Belief);
         }
         if (Input.GetKeyDown(KeyCode.Keypad5)) //添加力量
         {
             GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
             go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[5];
             go.transform.position = GetMousePosition();
-            //BattleSceneManager.Instance.SendBattleEvent(BattleEventType.ForceMove, new Vector2(go.transform.position.x, go.transform.position.z));
+            go.transform.GetComponent<RewardManager>().SetData(RewardType.Power);
         }
     }
 }

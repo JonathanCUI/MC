@@ -58,24 +58,28 @@ public class BattleSceneManager : MonoBehaviour {
 			{
                 //Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
                 //分发消息
-                SendBattleEvent(BattleEventType.ForceMove, new Vector2(hitInfo.point.x, hitInfo.point.z));
+                Vector2 logicPosition = new Vector2(hitInfo.point.x, hitInfo.point.z);
+                BEI_ForceMove bei = new BEI_ForceMove(logicPosition, HeroClass.None);
+                BattleEvent be = new BattleEvent(BattleEventType.ForceMove, bei);
+                SendBattleEvent(be);
             }
         }
 	}
 
-    public void SendBattleEvent(BattleEventType pType, Vector2 pLogicPosition)
+    public void SendBattleEvent(BattleEvent pBattleEvent)
     {
-        BEI_ForceMove be = new BEI_ForceMove(pLogicPosition, HeroClass.None);
-        BattleEvent bt = new BattleEvent(pType, be);
         for (int i = 0; i < _heroList.Count; i++)
         {
-            _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(bt);
+            _heroList[i].transform.GetComponent<AvatarManager>().ReceiverMessage(pBattleEvent);
         }
     }
 
-    public void SendNewRewardEvent()
+    public void RemoveReward(Transform pRewardTransform)
     {
-
+        if (pRewardTransform != null)
+        {
+            Destroy(pRewardTransform.gameObject);
+        }
     }
 
 	void OnDestroy()

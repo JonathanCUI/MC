@@ -97,7 +97,7 @@ public static class HeroColor{
 
 public enum RewardType
 {
-    None,       //默认值
+    None = -1,  //默认值
     Glory,      //荣耀
     Gold,       //金钱
     Knowledge,  //知识

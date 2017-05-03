@@ -11,8 +11,9 @@ public class RewardManager : MonoBehaviour {
     //最开始的时候，全局广播战场消息，有一个新的奖励被投放到战场
 	void Start ()
     {
-//        BSM.Instance.SendBattleEvent(BattleEventType.ForceMove, Vector2.zero);
-	}
+        BEI_NewReward bei = new BEI_NewReward(_rewardType, this.transform, 100f);
+        BSM.Instance.SendBattleEvent(new BattleEvent(BattleEventType.NewReward, bei));
+    }
 	
 	// Update is called once per frame
 	void Update ()
