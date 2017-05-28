@@ -10,14 +10,18 @@ public class HeadManager {
 
     //巡逻相关参数
     private float   _maxPatrolRadius = 3f;        //最大巡逻半径
-    private Vector2 _patrolCentrePosition;         //巡逻中心点
-    private Vector2 _patrolTerminalPosition;       //巡逻目标点
     private float   _minPatrolIdleTime = 1f;       //到达位置后，最小空闲时间
     private float   _maxPatrolIdleTime = 2f;       //到达位置后，最大空闲时间
+    private float   _patrolPerceptionRadius;       //巡逻时间感知半径
+
+    //巡逻辅助变量
+    private Vector2 _patrolCentrePosition;         //巡逻中心点
+    private Vector2 _patrolTerminalPosition;       //巡逻目标点
     private float   _patrolIdleTime;               //到达位置后，随机一个在最大值和最小值之间个一个时间
     private float   _idleTimeAccmulate;            //到达位置后，已经空闲的时间
     private bool    _patrolReachTerminal;          //是否到达位置
     //可以说，红轴现在是机械键盘当中，压感最小的机械键盘，打字有一种蜻蜓点水的感觉，非常的快速
+
     //跑向目标地点相关参数
     private Vector2 _runStartPosition;         //跑状态起始位置
     private Vector2 _runTerminalPosition;      //跑向目标地点
@@ -36,14 +40,25 @@ public class HeadManager {
         _avatarManager = pAvatarManager;
         SetUpAIProperties(pHeroClass);
         _patrolCentrePosition = new Vector2(pAvatarManager.transform.position.x, pAvatarManager.transform.position.z);
+        //获取英雄行为信息
+        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroBehaviourProperty WHERE hero_id = " + ((int)pHeroClass).ToString());
+        if (!reader.Read())
+        {
+            Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());
+        }
+        _maxPatrolRadius        = reader.GetFloat(reader.GetOrdinal("patrol_radius"));
+        _minPatrolIdleTime      = reader.GetFloat(reader.GetOrdinal("patrol_min_idle"));
+        _maxPatrolIdleTime      = reader.GetFloat(reader.GetOrdinal("patrol_max_idle"));
+        _patrolPerceptionRadius = reader.GetFloat(reader.GetOrdinal("patrol_perception_radius"));
     }
 
     private void SetUpAIProperties(HeroClass pHeroClass)
     {
-        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLike WHERE id = " + ((int)pHeroClass).ToString());
+        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLikeProperty WHERE hero_id = " + ((int)pHeroClass).ToString());
         if (!reader.Read())
         {
             Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());
+            return;
         }
         _heroClass = pHeroClass;
         _heroLikeProrityList = new List<float>();

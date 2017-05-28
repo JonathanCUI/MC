@@ -56,7 +56,8 @@ public class BodyManager {
     private void SetUpBattleProperties(HeroClass pHeroClass)
     {
         _heroClass = pHeroClass;
-        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM Hero WHERE id = " + ((int)pHeroClass).ToString());
+        //暂且取等级1的数据，后面可能会根据不同的关卡来初始化不是1级别的英雄
+        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroBattleProperty WHERE hero_id = " + ((int)pHeroClass).ToString() + " AND level = 1");
         if (!reader.Read())
         {
             Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());

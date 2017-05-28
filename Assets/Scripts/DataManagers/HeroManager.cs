@@ -148,7 +148,7 @@ public class HeroManager : MonoBehaviour {
 
     private void SetUpAIProperties(HeroClass pHeroClass)
     {
-        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLike WHERE id = " + ((int)pHeroClass).ToString());
+        SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLikeProperty WHERE hero_id = " + ((int)pHeroClass).ToString());
         if(!reader.Read())
         {
             Debug.LogError("Incorrect Hero Class of" + pHeroClass.ToString());
