@@ -49,6 +49,7 @@ public class BattleSceneManager : MonoBehaviour {
 	void Update ()
 	{
         //右键点击地面，强制移动
+        /*
 		if (Input.GetMouseButtonDown (1)) 
 		{
 			Ray clickRay = _mainCamera.ScreenPointToRay (Input.mousePosition);
@@ -64,6 +65,7 @@ public class BattleSceneManager : MonoBehaviour {
                 SendBattleEvent(be);
             }
         }
+        */
 	}
 
     public void SendBattleEvent(BattleEvent pBattleEvent)
