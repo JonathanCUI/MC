@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class BattleSceneManager : MonoBehaviour {
 
-
     //instance
     private static BattleSceneManager _instance;
 
@@ -14,6 +13,20 @@ public class BattleSceneManager : MonoBehaviour {
 
 	//scene members
 	private Camera _mainCamera;
+
+    //游戏时间管理
+    private float _defaultUpdateGap;        //标准更新时间间隔
+    private float _updateTimeAccumulate;    //更新逻辑累加
+    private float _battleStartTime;         //战斗开始真实时间
+    private float _previousUpdateLogicTime; //上一次更新逻辑帧的真实时间
+    private float _previousUpdateTime;      //上一次更新游戏的时间
+
+    private float _updateTimeGap;   //更新时间间隔
+
+//    private float 
+//    private float _update
+
+
 
     public static BattleSceneManager Instance{
         get{
@@ -43,11 +56,25 @@ public class BattleSceneManager : MonoBehaviour {
         Translation.Initialize();
         _instance = this;
 		_mainCamera = Camera.main;
+
+        //time relative
+        _battleStartTime = Time.realtimeSinceStartup;
+        _previousUpdateLogicTime = Time.realtimeSinceStartup;
+        _updateTimeAccumulate = 0f;
+        _defaultUpdateGap = 1f / 30f;
     }
-    
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    //主更新函数，是游戏内时间驱动的唯一入口，为了保证效率和正确率，所有子类的更新函数都由这里统一调用
+    void Update ()
 	{
+        _updateTimeGap = Time.realtimeSinceStartup - _previousUpdateTime;
+
+
+
+        _previousUpdateLogicTime = Time.realtimeSinceStartup;
+
+        //        Time.realtimeSinceStartup
         //右键点击地面，强制移动
         /*
 		if (Input.GetMouseButtonDown (1)) 
@@ -66,7 +93,27 @@ public class BattleSceneManager : MonoBehaviour {
             }
         }
         */
+
+
+        UpdateRender(_updateTimeGap);
+        
 	}
+
+    //每隔固定时间更新逻辑
+    private void UpdateLogic()
+    {
+
+    }
+    //每次非更新逻辑帧的更新逻辑会调用，用来平滑显示
+    private void UpdateRender(float pDeltaTime)
+    {
+
+    }
+
+    //
+    private void UpdatePosition(float pDelatTime)
+    {
+    }
 
     public void SendBattleEvent(BattleEvent pBattleEvent)
     {
