@@ -15,14 +15,14 @@ public class BattleSceneManager : MonoBehaviour {
 	private Camera _mainCamera;
 
     //游戏时间管理
-    private float _defaultUpdateGap;        //标准更新时间间隔
+    private float _defaultUpdateGap;        //标准更新逻辑时间间隔，标准一般为1/30秒
     private float _updateTimeAccumulate;    //更新逻辑累加
     private float _battleStartTime;         //战斗开始真实时间
     private float _previousUpdateLogicTime; //上一次更新逻辑帧的真实时间
     private float _previousUpdateTime;      //上一次更新游戏的时间
-
-    private float _updateTimeGap;   //更新时间间隔
-
+    private float _currentTime;             //当前游戏时间
+    private float _updateTimeGap;           //更新时间间隔
+    private bool _updateLogicThisFrame;     //是否在本次更新更新了逻辑信息
 //    private float 
 //    private float _update
 
@@ -68,13 +68,31 @@ public class BattleSceneManager : MonoBehaviour {
     //主更新函数，是游戏内时间驱动的唯一入口，为了保证效率和正确率，所有子类的更新函数都由这里统一调用
     void Update ()
 	{
-        _updateTimeGap = Time.realtimeSinceStartup - _previousUpdateTime;
+        _currentTime = Time.realtimeSinceStartup;
+        _updateLogicThisFrame = false;
 
+        _updateTimeGap = _currentTime - _previousUpdateTime;
+        _updateTimeAccumulate += _updateTimeGap;
+        //当累计到1/30秒之后，更新逻辑
+        while (_updateTimeAccumulate >= _defaultUpdateGap)
+        {
+            _updateLogicThisFrame = true;
+            UpdateLogic();
+            _updateTimeAccumulate -= _defaultUpdateGap;
+        }
+        //如果本次更新同时更新了逻辑帧(至少一次)，那么就不必更新位置信息
 
+        //为了保证显示的平滑，每次update都会更新位置信息position
 
-        _previousUpdateLogicTime = Time.realtimeSinceStartup;
+        //更新渲染信息，比如粒子特效等等，其实也可以直接调用update来实现，这里存疑
+        //UpdateRender(_updateTimeGap);
+        if (!_updateLogicThisFrame)
+        {
+            UpdatePosition(_updateTimeGap);
+        }
 
-        //        Time.realtimeSinceStartup
+        _previousUpdateLogicTime = _currentTime;
+
         //右键点击地面，强制移动
         /*
 		if (Input.GetMouseButtonDown (1)) 
@@ -93,10 +111,6 @@ public class BattleSceneManager : MonoBehaviour {
             }
         }
         */
-
-
-        UpdateRender(_updateTimeGap);
-        
 	}
 
     //每隔固定时间更新逻辑
@@ -113,6 +127,7 @@ public class BattleSceneManager : MonoBehaviour {
     //
     private void UpdatePosition(float pDelatTime)
     {
+        //根据刷新时间间隔来更新位置信息，使得移动更加平滑
     }
 
     public void SendBattleEvent(BattleEvent pBattleEvent)
