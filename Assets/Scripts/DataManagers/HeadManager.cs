@@ -32,10 +32,10 @@ public class HeadManager {
     private float _targetMinDistance = 3f;
 
     //英雄兴趣信息
-    private HeroClass _heroClass;
+    private AvatarClass _heroClass;
     private List<float> _heroLikeProrityList;
 
-    public HeadManager(HeroClass pHeroClass, AvatarManager pAvatarManager)
+    public HeadManager(AvatarClass pHeroClass, AvatarManager pAvatarManager)
     {
         _avatarManager = pAvatarManager;
         SetUpAIProperties(pHeroClass);
@@ -52,7 +52,7 @@ public class HeadManager {
         _patrolPerceptionRadius = reader.GetFloat(reader.GetOrdinal("patrol_perception_radius"));
     }
 
-    private void SetUpAIProperties(HeroClass pHeroClass)
+    private void SetUpAIProperties(AvatarClass pHeroClass)
     {
         SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLikeProperty WHERE hero_id = " + ((int)pHeroClass).ToString());
         if (!reader.Read())
@@ -196,7 +196,7 @@ public class HeadManager {
             case BattleEventType.ForceMove:
                 {
                     BEI_ForceMove bei = pBattleEvent.BattleEventObject as BEI_ForceMove;
-                    if (bei != null && (bei.SpecificHeroClass == _heroClass || bei.SpecificHeroClass == HeroClass.None))
+                    if (bei != null && (bei.SpecificHeroClass == _heroClass || bei.SpecificHeroClass == AvatarClass.None))
                     {
                         this.RunToPosition(bei.LogicPosition, pCurrentPosition);
                     }

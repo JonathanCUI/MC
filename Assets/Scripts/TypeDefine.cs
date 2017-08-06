@@ -20,7 +20,7 @@ public static class Common{
 
 }
 
-public enum HeroClass
+public enum AvatarClass
 {
     None,           //0默认值
     Warrior,        //1战士
@@ -33,7 +33,10 @@ public enum HeroClass
     Druid,          //8德鲁伊
     Warlock,        //9术士
     DeathKnight,    //10死亡骑士
+    Monster,        //11怪物
 }
+
+
 
 public enum Camp
 {

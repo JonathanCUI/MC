@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 public class BattleSceneManager : MonoBehaviour {
-
     //instance
     private static BattleSceneManager _instance;
 
@@ -10,6 +9,10 @@ public class BattleSceneManager : MonoBehaviour {
     private List<GameObject> _heroList = new List<GameObject>();
     private List<GameObject> _rewardList = new List<GameObject>();
     private List<GameObject> _monsterList = new List<GameObject>();
+
+    //所有实体列表
+    private List<AvatarManager> _avatarList = new List<AvatarManager>();
+    private List<BulletManager> _bulletList = new List<BulletManager>();
 
 	//scene members
 	private Camera _mainCamera;
@@ -61,7 +64,7 @@ public class BattleSceneManager : MonoBehaviour {
         _battleStartTime = Time.realtimeSinceStartup;
         _previousUpdateLogicTime = Time.realtimeSinceStartup;
         _updateTimeAccumulate = 0f;
-        _defaultUpdateGap = 1f / 30f;
+        _defaultUpdateGap = Const.UpdateGapTime;
     }
 
     // Update is called once per frame
@@ -94,40 +97,42 @@ public class BattleSceneManager : MonoBehaviour {
         _previousUpdateLogicTime = _currentTime;
 
         //右键点击地面，强制移动
-        /*
-		if (Input.GetMouseButtonDown (1)) 
-		{
-			Ray clickRay = _mainCamera.ScreenPointToRay (Input.mousePosition);
-			RaycastHit hitInfo;
-
-            if (Physics.Raycast (clickRay, out hitInfo, Mathf.Infinity)) 
-			{
-                //Debug.Log (hitInfo.point.ToString());//;transform.position.ToString ());
-                //分发消息
-                Vector2 logicPosition = new Vector2(hitInfo.point.x, hitInfo.point.z);
-                BEI_ForceMove bei = new BEI_ForceMove(logicPosition, HeroClass.None);
-                BattleEvent be = new BattleEvent(BattleEventType.ForceMove, bei);
-                SendBattleEvent(be);
-            }
-        }
-        */
 	}
 
     //每隔固定时间更新逻辑
     private void UpdateLogic()
     {
-
+        //更新所有角色逻辑
+        for (int i = 0; i < _avatarList.Count; i++)
+        {
+            _avatarList[i].UpdateLogic();
+        }
+        //更新所有子弹逻辑
+        for (int i = 0; i < _bulletList.Count; i++)
+        {
+            _bulletList[i].UpdateLogic();
+        }
     }
-    //每次非更新逻辑帧的更新逻辑会调用，用来平滑显示
-    private void UpdateRender(float pDeltaTime)
-    {
+    ////每次非更新逻辑帧的更新逻辑会调用，用来平滑显示
+    //private void UpdateRender(float pDeltaTime)
+    //{
 
-    }
+    //}
 
     //
     private void UpdatePosition(float pDelatTime)
     {
         //根据刷新时间间隔来更新位置信息，使得移动更加平滑
+        //更新所有角色逻辑
+        for (int i = 0; i < _avatarList.Count; i++)
+        {
+            _avatarList[i].UpdatePosition(pDelatTime);
+        }
+        //更新所有子弹逻辑
+        for (int i = 0; i < _bulletList.Count; i++)
+        {
+            _bulletList[i].UpdatePosition(pDelatTime);
+        }
     }
 
     public void SendBattleEvent(BattleEvent pBattleEvent)
@@ -146,7 +151,27 @@ public class BattleSceneManager : MonoBehaviour {
         }
     }
 
-	void OnDestroy()
+    //创建新的英雄
+    public void AddNewHero(AvatarClass pAvatarClass, Vector3 pBornPosition)
+    {
+        AddNewAvatar(pAvatarClass, pBornPosition, Camp.Ally);
+    }
+
+    public void AddNewMonster(AvatarClass pAvatarClass, Vector3 pBornPosition)
+    {
+        AddNewAvatar(pAvatarClass, pBornPosition, Camp.Enemy);
+    }
+
+    private void AddNewAvatar(AvatarClass pAvatarClass, Vector3 pBornPosition, Camp pCamp)
+    {
+        //创建avatar
+        GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
+        go.transform.GetComponent<AvatarManager>().SetData(pAvatarClass, pCamp, pBornPosition);
+
+        _avatarList.Add(go.transform.GetComponent<AvatarManager>());
+    }
+
+    void OnDestroy()
 	{
 		DBManager.Close ();
 	}

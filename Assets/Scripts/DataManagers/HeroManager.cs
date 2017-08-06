@@ -14,7 +14,7 @@ public enum HeroAIStatus{
 public class HeroManager : MonoBehaviour {
 
     //data members
-    private HeroClass _heroClass;
+    private AvatarClass _heroClass;
     private float _baseHP;
     private float _baseMP;
     private float _baseWalkSpeed;
@@ -115,13 +115,13 @@ public class HeroManager : MonoBehaviour {
         return false;
     }
 
-    public void SetData(HeroClass pHeroClass)
+    public void SetData(AvatarClass pHeroClass)
     {
         SetUpBattleProperties(pHeroClass);
         SetUpAIProperties(pHeroClass);
     }
 
-    private void SetUpBattleProperties(HeroClass pHeroClass)
+    private void SetUpBattleProperties(AvatarClass pHeroClass)
     {
         _heroClass = pHeroClass;
         SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM Hero WHERE id = " + ((int)pHeroClass).ToString());
@@ -146,7 +146,7 @@ public class HeroManager : MonoBehaviour {
         _baseMPRecoverSpeed = reader.GetFloat(reader.GetOrdinal("mp_recover_spd"));
     }
 
-    private void SetUpAIProperties(HeroClass pHeroClass)
+    private void SetUpAIProperties(AvatarClass pHeroClass)
     {
         SqliteDataReader reader = DBManager.ExecuteQuery("SELECT * FROM HeroLikeProperty WHERE hero_id = " + ((int)pHeroClass).ToString());
         if(!reader.Read())

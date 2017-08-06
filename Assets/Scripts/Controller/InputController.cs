@@ -14,7 +14,7 @@ public class InputController : MonoBehaviour {
     //data members
 
     //connection with finger id and hero class
-    private Dictionary<int, HeroClass>  _heroFingerClassSelectionDic = new Dictionary<int, HeroClass>();
+    private Dictionary<int, AvatarClass>  _heroFingerClassSelectionDic = new Dictionary<int, AvatarClass>();
     //connection with finger id and hero game object
     private Dictionary<int, GameObject> _heroFingerObjectSelectionDic = new Dictionary<int, GameObject>();
     //connection with finger id and reward type
@@ -65,7 +65,7 @@ public class InputController : MonoBehaviour {
                 if(touches[i].position.x <= heroPanelWidth)
                 {
                     int heroIndex = Common.HeroClassCount - (int)(touches[i].position.y * Common.HeroClassCount / Screen.height);
-                    _heroFingerClassSelectionDic.Add(fingerID, (HeroClass)heroIndex);
+                    _heroFingerClassSelectionDic.Add(fingerID, (AvatarClass)heroIndex);
                     _heroFingerObjectSelectionDic.Add(fingerID, null);
                 }
                 //reward selection

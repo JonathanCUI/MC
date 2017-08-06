@@ -18,7 +18,7 @@ public class AvatarHUDController : MonoBehaviour {
         this.transform.position = this.transform.parent.parent.position + new Vector3(0, 3.5f, 0);
 	}
 
-    public void SetData(HeroClass pHeroClass, Camp pCamp)
+    public void SetData(AvatarClass pHeroClass, Camp pCamp)
     {
         HPBarImage.color = HeroColor.ColorList[(int)pHeroClass];
     }

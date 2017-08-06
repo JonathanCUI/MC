@@ -4,7 +4,7 @@ using Mono.Data.Sqlite;
 
 public class BodyManager {
     //data members
-    private HeroClass _heroClass;
+    private AvatarClass _heroClass;
     private float _baseHP;
     private float _baseMP;
     private float _baseWalkSpeed;
@@ -21,7 +21,7 @@ public class BodyManager {
     private float _baseHPRecoverSpeed;
     private float _baseMPRecoverSpeed;
 
-    public BodyManager(HeroClass pHeroClass)
+    public BodyManager(AvatarClass pHeroClass)
     {
         SetUpBattleProperties(pHeroClass);
     }
@@ -53,7 +53,7 @@ public class BodyManager {
 
 
     //获得英雄的基本属性信息
-    private void SetUpBattleProperties(HeroClass pHeroClass)
+    private void SetUpBattleProperties(AvatarClass pHeroClass)
     {
         _heroClass = pHeroClass;
         //暂且取等级1的数据，后面可能会根据不同的关卡来初始化不是1级别的英雄

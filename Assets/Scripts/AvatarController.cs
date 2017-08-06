@@ -21,24 +21,24 @@ public class AvatarController : MonoBehaviour {
         //_terminalPosition = this.transform.position;
     }
 
-    public void SetData(HeroClass pHeroClass)
+    public void SetData(AvatarClass pHeroClass)
     {
         GameObject avatar = null;
         switch(pHeroClass)
         {
-            case HeroClass.Warrior:
+            case AvatarClass.Warrior:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Warrior") as GameObject);
                 break;
-            case HeroClass.Hunter:
+            case AvatarClass.Hunter:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Hunter") as GameObject);
                 break;
-            case HeroClass.Mage:
+            case AvatarClass.Mage:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Mage") as GameObject);
                 break;
-            case HeroClass.Priest:
+            case AvatarClass.Priest:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Priest") as GameObject);
                 break;
-            case HeroClass.Rogue:
+            case AvatarClass.Rogue:
                 avatar = Instantiate(Resources.Load("Prefabs/Avatars/Warrior") as GameObject);
                 break;
             default:

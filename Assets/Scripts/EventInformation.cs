@@ -11,10 +11,10 @@ public abstract class BattleEventInformation
 public class BEI_ForceMove : BattleEventInformation
 {
     //data members
-    private HeroClass _heroClass;
+    private AvatarClass _heroClass;
     private Vector2 _position;
 
-    public BEI_ForceMove(Vector2 pLogicPosition, HeroClass pHeroClass)
+    public BEI_ForceMove(Vector2 pLogicPosition, AvatarClass pHeroClass)
     {
         _position = pLogicPosition;
         _heroClass = pHeroClass;
@@ -24,7 +24,7 @@ public class BEI_ForceMove : BattleEventInformation
     {
         get { return _position; }
     }
-    public HeroClass SpecificHeroClass
+    public AvatarClass SpecificHeroClass
     {
         get { return _heroClass; }
     }
