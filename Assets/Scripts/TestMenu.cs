@@ -32,42 +32,43 @@ public class TestMenu : MonoBehaviour {
         {
             BSM.Instance.AddNewHero(AvatarClass.Warrior, GetMousePosition());
         }
-        //if (Input.GetKeyDown(KeyCode.Alpha2))   //添加法师
-        //{
-        //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    go.transform.position = GetMousePosition();
-        //    go.transform.GetComponent<AvatarManager>().SetData(AvatarClass.Mage, Camp.Ally);
-        //    BSM.Instance.AddHero(go);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))   //添加牧师
-        //{
-        //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    go.transform.position = GetMousePosition();
-        //    go.transform.GetComponent<AvatarManager>().SetData(AvatarClass.Priest, Camp.Ally);
-        //    BSM.Instance.AddHero(go);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha4))   //添加猎人
-        //{
-        //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    go.transform.position = GetMousePosition();
-        //    go.transform.GetComponent<AvatarManager>().SetData(AvatarClass.Hunter, Camp.Ally);
-        //    BSM.Instance.AddHero(go);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha5))   //添加盗贼
-        //{
-        //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Avatar") as GameObject);
-        //    go.transform.position = GetMousePosition();
-        //    go.transform.GetComponent<AvatarManager>().SetData(AvatarClass.Rogue, Camp.Ally);
-        //    BSM.Instance.AddHero(go);
-        //}
+        if (Input.GetKeyDown(KeyCode.Alpha2))   //添加法师
+        {
+            BSM.Instance.AddNewHero(AvatarClass.Mage, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))   //添加牧师
+        {
+            BSM.Instance.AddNewHero(AvatarClass.Priest, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))   //添加猎人
+        {
+            BSM.Instance.AddNewHero(AvatarClass.Hunter, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))   //添加盗贼
+        {
+            BSM.Instance.AddNewHero(AvatarClass.Rogue, GetMousePosition());
+        }
         //如果按下小键盘1 - 5，表示创造不同的奖赏点，荣耀，金钱，知识，信仰，力量
-        //if (Input.GetKeyDown(KeyCode.Keypad1)) //添加荣耀
-        //{
-        //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
-        //    go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[1];
-        //    go.transform.position = GetMousePosition();
-        //    go.transform.GetComponent<RewardManager>().SetData(RewardType.Glory);
-        //}
+        if (Input.GetKeyDown(KeyCode.Keypad1)) //添加荣耀
+        {
+            BSM.Instance.AddNewReward(RewardType.Glory, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2)) //添加金钱
+        {
+            BSM.Instance.AddNewReward(RewardType.Gold, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3)) //添加知识
+        {
+            BSM.Instance.AddNewReward(RewardType.Knowledge, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4)) //添加信仰
+        {
+            BSM.Instance.AddNewReward(RewardType.Belief, GetMousePosition());
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5)) //添加力量
+        {
+            BSM.Instance.AddNewReward(RewardType.Power, GetMousePosition());
+        }
         //if (Input.GetKeyDown(KeyCode.Keypad2)) //添加金钱
         //{
         //    GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);

@@ -21,7 +21,7 @@ public class BattleSceneManager : MonoBehaviour {
     private float _defaultUpdateGap;        //标准更新逻辑时间间隔，标准一般为1/30秒
     private float _updateTimeAccumulate;    //更新逻辑累加
     private float _battleStartTime;         //战斗开始真实时间
-    private float _previousUpdateLogicTime; //上一次更新逻辑帧的真实时间
+//    private float _previousUpdateLogicTime; //上一次更新逻辑帧的真实时间
     private float _previousUpdateTime;      //上一次更新游戏的时间
     private float _currentTime;             //当前游戏时间
     private float _updateTimeGap;           //更新时间间隔
@@ -62,7 +62,7 @@ public class BattleSceneManager : MonoBehaviour {
 
         //time relative
         _battleStartTime = Time.realtimeSinceStartup;
-        _previousUpdateLogicTime = Time.realtimeSinceStartup;
+        _previousUpdateTime = Time.realtimeSinceStartup;
         _updateTimeAccumulate = 0f;
         _defaultUpdateGap = Const.UpdateGapTime;
     }
@@ -71,14 +71,18 @@ public class BattleSceneManager : MonoBehaviour {
     //主更新函数，是游戏内时间驱动的唯一入口，为了保证效率和正确率，所有子类的更新函数都由这里统一调用
     void Update ()
 	{
+  //      Debug.Log("Real time since start up" + Time.realtimeSinceStartup.ToString());
         _currentTime = Time.realtimeSinceStartup;
         _updateLogicThisFrame = false;
 
         _updateTimeGap = _currentTime - _previousUpdateTime;
+
         _updateTimeAccumulate += _updateTimeGap;
+//        Debug.Log("Update Time Gap" + _updateTimeGap.ToString());
         //当累计到1/30秒之后，更新逻辑
         while (_updateTimeAccumulate >= _defaultUpdateGap)
         {
+  //          Debug.Log("Update Time Accumulate" + _updateTimeAccumulate.ToString());
             _updateLogicThisFrame = true;
             UpdateLogic();
             _updateTimeAccumulate -= _defaultUpdateGap;
@@ -94,7 +98,7 @@ public class BattleSceneManager : MonoBehaviour {
             UpdatePosition(_updateTimeGap);
         }
 
-        _previousUpdateLogicTime = _currentTime;
+        _previousUpdateTime = _currentTime;
 
         //右键点击地面，强制移动
 	}
@@ -169,6 +173,15 @@ public class BattleSceneManager : MonoBehaviour {
         go.transform.GetComponent<AvatarManager>().SetData(pAvatarClass, pCamp, pBornPosition);
 
         _avatarList.Add(go.transform.GetComponent<AvatarManager>());
+    }
+
+    public void AddNewReward(RewardType pRewardType, Vector3 pBornPosition)
+    {
+        GameObject go = Instantiate(Resources.Load("Prefabs/Avatars/Reward") as GameObject);
+        go.transform.GetComponent<Renderer>().material.color = RewardColor.ColorList[(int)pRewardType];
+        go.transform.position = pBornPosition;
+        go.transform.GetComponent<RewardManager>().SetData(pRewardType);
+        //    go.transform.GetComponent<RewardManager>().SetData(RewardType.Gold);
     }
 
     void OnDestroy()

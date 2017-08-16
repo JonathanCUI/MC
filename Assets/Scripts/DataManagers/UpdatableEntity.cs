@@ -43,12 +43,13 @@ public abstract class UpdateableEntity : MonoBehaviour {
         //更新旋转
         if (_renderSpeed != Vector3.zero)
         {
-            this.transform.rotation = Quaternion.LookRotation(_renderSpeed);
+         //   this.transform.rotation = Quaternion.LookRotation(_renderSpeed);
         }
     }
 
     public virtual void UpdatePosition(float pDeltaTime)
     {
+        //Debug.Log(pDeltaTime.ToString());
         //更新位置
         this.transform.position += pDeltaTime * _renderSpeed;
 
