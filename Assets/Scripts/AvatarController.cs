@@ -45,7 +45,7 @@ public class AvatarController : MonoBehaviour {
                 break;
         }
         avatar.transform.SetParent(this.transform, false);
-        _avatarAnimator = this.transform.GetComponentInChildren<Animator>();
+        _avatarAnimator = avatar.transform.GetComponent<Animator>();
 //        this.transform.GetComponent<HeroManager>().SetData(pHeroClass);
     }
         

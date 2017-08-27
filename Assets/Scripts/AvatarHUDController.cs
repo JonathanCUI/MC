@@ -9,12 +9,13 @@ public class AvatarHUDController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.transform.parent.GetComponent<Canvas>().worldCamera = Camera.main;
+        this.transform.parent.GetComponent<Canvas>().worldCamera = Camera.main;        
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+//        this.transform.parent.LookAt(Camera.main.transform.position * -1);
         this.transform.position = this.transform.parent.parent.position + new Vector3(0, 3.5f, 0);
 	}
 

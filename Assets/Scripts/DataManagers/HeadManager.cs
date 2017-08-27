@@ -23,7 +23,7 @@ public class HeadManager {
     //可以说，红轴现在是机械键盘当中，压感最小的机械键盘，打字有一种蜻蜓点水的感觉，非常的快速
 
     //跑向目标地点相关参数
-    private Vector2 _runStartPosition;         //跑状态起始位置
+    private Vector2 _runStartPosition;         //跑状态起始位置  
     private Vector2 _runTerminalPosition;      //跑向目标地点
     private float   _runDistanceSqr;           //需要跑动的距离的平方
 
