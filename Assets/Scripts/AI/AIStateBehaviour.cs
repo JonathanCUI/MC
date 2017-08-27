@@ -3,11 +3,21 @@ using System.Collections;
 
 public class AIStateBehaviour : StateMachineBehaviour {
 
-	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    //定义所有可能出现的变量
+    //状态
+    private int _statePatrolIdle = Animator.StringToHash("Base Layer.Patrol.PatrolIdle");
+    private int _statePatrolWalk = Animator.StringToHash("Base Layer.Patrol.PatrolWalk");
+
+    //触发器
+    private int _triggerPatrolIdleToWalk = Animator.StringToHash("PatrolIdleToWalkTrigger");
+    private int _triggerPatrolWalkToIdle = Animator.StringToHash("PatrolWalkToIdleTrigger");
+    
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("On state enter of patrol idle status");
-//        animator.GetFloat(1);
+        Debug.Log(Animator.StringToHash("Base Layer.Patrol.PatrolIdle"));
+        Debug.Log("On State Enter:" + stateInfo.fullPathHash);
+
     }
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
