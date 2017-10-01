@@ -9,7 +9,7 @@ public class HeadManager {
     private AvatarManager _avatarManager;
 
     //巡逻相关参数
-    private float   _maxPatrolRadius = 3f;        //最大巡逻半径
+    private float   _maxPatrolRadius = 3f;         //最大巡逻半径
     private float   _minPatrolIdleTime = 1f;       //到达位置后，最小空闲时间
     private float   _maxPatrolIdleTime = 2f;       //到达位置后，最大空闲时间
     private float   _patrolPerceptionRadius;       //巡逻时间感知半径

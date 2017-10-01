@@ -12,11 +12,25 @@ public class AIStateBehaviour : StateMachineBehaviour {
     //触发器
     private int _triggerPatrolIdleToWalk = Animator.StringToHash("PatrolIdleToWalkTrigger");
     private int _triggerPatrolWalkToIdle = Animator.StringToHash("PatrolWalkToIdleTrigger");
-    
+
+    //将AIManager存一份保存在本地，用于加快速度
+    private AIManager _aiManager = null;
+
+    public void SetData()
+    {
+
+    }
+
+
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log(Animator.StringToHash("Base Layer.Patrol.PatrolIdle"));
-        Debug.Log("On State Enter:" + stateInfo.fullPathHash);
+        if (_aiManager == null)
+        {
+            _aiManager = animator.transform.GetComponent<AIManager>();
+        }
+        _aiManager.OnStateEnter(stateInfo.fullPathHash);
+        //Debug.Log(Animator.StringToHash("Base Layer.Patrol.PatrolIdle"));
+        //Debug.Log("On State Enter:" + stateInfo.fullPathHash);
 
     }
 
