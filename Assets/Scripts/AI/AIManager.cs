@@ -79,9 +79,10 @@ public class AIManager : MonoBehaviour {
         if (_currentAIStatus == AIStatus.PatrolIdle)
         {
             _patrolIdleTimeAccmulate += Const.UpdateGapTime;
-            //休息了足够的时间，需要开始下一段路程
+            //判断是否休息了足够的时间
             if (_patrolIdleTimeAccmulate >= _patrolIdleTime)
             {
+                //休息了足够的时间，需要开始下一段路程
                 _AIFSM.SetTrigger(_triggerPatrolIdleToWalk);
             }
             return;
@@ -92,6 +93,7 @@ public class AIManager : MonoBehaviour {
             //判断是否走了足够的距离
             if (Vector2.SqrMagnitude(_avatarManager.LogicPosition - _patrolStartPosition) >= _patrolDistanceSqrLimit)
             {
+                //如果走了足够的距离，则转入空闲状态
                 _AIFSM.SetTrigger(_triggerPatrolWalkToIdle);
             }
             return;
@@ -100,10 +102,8 @@ public class AIManager : MonoBehaviour {
 
     public void OnStateEnter(int pStateHash)
     {
-//        Debug.Log("On State Enter" + pStateHash);
         if (pStateHash == _statePatrolIdle)
         {
-            Debug.Log("ON STATE ENTER: PATROL IDLE");
             _currentAIStatus = AIStatus.PatrolIdle;
             _patrolIdleTimeAccmulate = 0f;
             _patrolIdleTime = Mathf.Lerp(_minPatrolIdleTime, _maxPatrolIdleTime, Random.Range(0f, 1f));
@@ -113,7 +113,6 @@ public class AIManager : MonoBehaviour {
 
         if (pStateHash == _statePatrolWalk)
         {
-            Debug.Log("ON STATE ENTER: PATROL WALK");
             _currentAIStatus = AIStatus.PatrolWalk;
             Vector2 _patrolTerminalPosition = _patrolCentrePosition + Random.insideUnitCircle * _maxPatrolRadius;
             _avatarManager.WalkToPosition(_patrolTerminalPosition);
@@ -125,15 +124,12 @@ public class AIManager : MonoBehaviour {
 
     public void OnStateExit(int pStateHash)
     {
-        Debug.Log("On State Exit" + pStateHash);
         if (pStateHash == _statePatrolIdle)
         {
-            Debug.Log("ON STATE EXIT: PATROL IDLE");
             return;
         }
         if (pStateHash == _statePatrolWalk)
         {
-            Debug.Log("ON STATE EXIT: PATROL WALK");
             return;
         }
     }
